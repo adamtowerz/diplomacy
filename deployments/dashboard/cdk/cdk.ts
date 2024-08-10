@@ -1,4 +1,4 @@
-import { AmplifyApp, Stack, StackProps, Construct, App } from "@deftly/cdk";
+import { AmplifyApp, Stack, StackProps, Construct, App } from "@diplomacy/cdk";
 
 class DashboardStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {

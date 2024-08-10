@@ -1,11 +1,10 @@
-# deftly
+# diplomacy
 
 ## Local Usage
 
 ### Ports
 
 - 3000: `dashboard`
-- 3003: `marketing`
 - 3010: `megalith`
 
 ## Monorepo Stuff

@@ -8,7 +8,7 @@ import {
   Lambda,
   LambdaApi,
   DdbTable,
-} from "@deftly/cdk";
+} from "@diplomacy/cdk";
 
 class MegalithStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {

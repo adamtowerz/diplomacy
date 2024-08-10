@@ -4,7 +4,7 @@ import viteTsconfigPaths from "vite-tsconfig-paths";
 import svgrPlugin from "vite-plugin-svgr";
 import mkcert from "vite-plugin-mkcert";
 
-import { localApiProxy } from "@deftly/local-dev";
+import { localApiProxy } from "@diplomacy/local-dev";
 
 const myPlugin: () => PluginOption = () => ({
   name: "configure-server",

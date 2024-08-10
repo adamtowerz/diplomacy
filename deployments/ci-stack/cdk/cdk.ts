@@ -1,6 +1,6 @@
 import * as cdk from "@aws-cdk/core";
 
-import { setupServicePipeline, Lambda, LambdaApi, DdbTable, allowTableReadWriteAccess } from "@deftly/cdk";
+import { setupServicePipeline, Lambda, LambdaApi, DdbTable, allowTableReadWriteAccess } from "@diplomacy/cdk";
 
 class MegalithStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {

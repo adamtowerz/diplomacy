@@ -11,7 +11,7 @@
   "license": "UNLICENSED",
   "devDependencies": {
     "@aws-cdk/core": "1.142.0",
-    "@deftly/cdk": "workspace:*",
+    "@diplomacy/cdk": "workspace:*",
     "cdk": "^2.55.1",
     "eslint": "^8.39.0",
     "ts-node": "^10.5.0"

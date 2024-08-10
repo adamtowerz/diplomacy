@@ -1,5 +1,5 @@
 {
-  "name": "@deftly/local-dev",
+  "name": "@diplomacy/local-dev",
   "private": true,
   "version": "0.0.0",
   "description": "set of utilities for local development",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adamtowerz/deftly.git"
+    "url": "git+https://github.com/adamtowerz/diplomacy.git"
   },
   "author": "Adam Towers",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/adamtowerz/deftly/issues"
+    "url": "https://github.com/adamtowerz/diplomacy/issues"
   },
-  "homepage": "https://github.com/adamtowerz/deftly#readme",
+  "homepage": "https://github.com/adamtowerz/diplomacy#readme",
   "dependencies": {
     "http-proxy-middleware": "^2.0.4"
   },

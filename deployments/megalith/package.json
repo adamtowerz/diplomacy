@@ -41,7 +41,7 @@
     "openai": "4.38.5"
   },
   "devDependencies": {
-    "@deftly/cdk": "workspace:*",
+    "@diplomacy/cdk": "workspace:*",
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/lodash-es": "^4.17.12",

@@ -1,6 +1,6 @@
 import * as cdk from "@aws-cdk/core";
 
-import { GitHubCI } from "@deftly/cdk";
+import { GitHubCI } from "@diplomacy/cdk";
 
 class CIStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {

@@ -1,25 +1,25 @@
 {
-  "name": "@deftly/cdk",
+  "name": "@diplomacy/cdk",
   "private": true,
   "version": "0.0.0",
   "description": "set of cdk utilities for constructing infrastructure resources in a uniform fashion",
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "build": "echo \"@deftly/cdk is not built, its ran via ts-node by deployment clients \"",
+    "build": "echo \"@diplomacy/cdk is not built, its ran via ts-node by deployment clients \"",
     "test": "echo \"No test specified, but that's ok\" && exit 0",
     "lint": "eslint src/"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adamtowerz/deftly.git"
+    "url": "git+https://github.com/adamtowerz/diplomacy.git"
   },
   "author": "Adam Towers",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/adamtowerz/deftly/issues"
+    "url": "https://github.com/adamtowerz/diplomacy/issues"
   },
-  "homepage": "https://github.com/adamtowerz/deftly#readme",
+  "homepage": "https://github.com/adamtowerz/diplomacy#readme",
   "dependencies": {
     "aws-cdk-lib": "^2.139.0",
     "constructs": "^10.3.0",
