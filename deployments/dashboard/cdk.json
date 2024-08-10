@@ -1,0 +1,6 @@
+{
+  "app": "yarn tsx cdk/cdk.ts",
+  "context": {
+    "@aws-cdk/core:stackRelativeExports": "true"
+  }
+}

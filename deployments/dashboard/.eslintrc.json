@@ -1,0 +1,13 @@
+{
+  "plugins": ["eslint-plugin-react"],
+  "extends": ["../../.eslintrc.json", "plugin:react/recommended"],
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}

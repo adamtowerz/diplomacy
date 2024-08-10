@@ -1,0 +1,21 @@
+{
+  "include": ["src"],
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["esnext"],
+    "allowJs": true,
+    "checkJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "rootDir": "src",
+    "outDir": "dist"
+  }
+}

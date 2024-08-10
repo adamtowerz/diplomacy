@@ -1,0 +1,36 @@
+{
+  "references": [
+    {
+      "path": "../../common/packages/core"
+    },
+    {
+      "path": "../../common/packages/storage"
+    },
+    {
+      "path": "../../common/packages/type-spec"
+    },
+    {
+      "path": "../../common/packages/web-server"
+    }
+  ],
+  "include": ["src"],
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["esnext"],
+    "types": ["@types/node", "jest"],
+    "allowJs": true,
+    "checkJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "rootDir": "src",
+    "outDir": "dist"
+  }
+}

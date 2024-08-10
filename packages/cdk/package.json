@@ -1,0 +1,33 @@
+{
+  "name": "@deftly/cdk",
+  "private": true,
+  "version": "0.0.0",
+  "description": "set of cdk utilities for constructing infrastructure resources in a uniform fashion",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "echo \"@deftly/cdk is not built, its ran via ts-node by deployment clients \"",
+    "test": "echo \"No test specified, but that's ok\" && exit 0",
+    "lint": "eslint src/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adamtowerz/deftly.git"
+  },
+  "author": "Adam Towers",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/adamtowerz/deftly/issues"
+  },
+  "homepage": "https://github.com/adamtowerz/deftly#readme",
+  "dependencies": {
+    "aws-cdk-lib": "^2.139.0",
+    "constructs": "^10.3.0",
+    "source-map-support": "^0.5.16"
+  },
+  "devDependencies": {
+    "@types/node": "10.17.27",
+    "eslint": "^8.39.0",
+    "typescript": "^5.4.5"
+  }
+}

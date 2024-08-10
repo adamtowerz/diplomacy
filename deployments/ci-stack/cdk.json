@@ -1,0 +1,6 @@
+{
+  "app": "yarn ts-node --project='./tsconfig.json' src/index.ts",
+  "context": {
+    "@aws-cdk/core:stackRelativeExports": "true"
+  }
+}

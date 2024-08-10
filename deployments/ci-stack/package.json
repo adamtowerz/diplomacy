@@ -1,0 +1,19 @@
+{
+  "name": "ci-stack",
+  "private": true,
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "cdk-deploy": "cdk deploy ci-stack",
+    "lint": "eslint src/"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@aws-cdk/core": "1.142.0",
+    "@deftly/cdk": "workspace:*",
+    "cdk": "^2.55.1",
+    "eslint": "^8.39.0",
+    "ts-node": "^10.5.0"
+  }
+}

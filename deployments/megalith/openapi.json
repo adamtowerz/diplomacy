@@ -1,0 +1,2700 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Megalith",
+    "description": "All & every",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3010/megalith",
+      "description": "localhost"
+    },
+    {
+      "url": "https://deftlyapi.com/megalith",
+      "description": "production"
+    }
+  ],
+  "paths": {
+    "/apps": {
+      "get": {
+        "summary": "Get my apps",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "apps"
+                  ],
+                  "properties": {
+                    "apps": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/HomeApp"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "summary": "Get a new auth token using a refresh token",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "token"
+                  ],
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/config/api-key": {
+      "get": {
+        "summary": "Get API key",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "key"
+                  ],
+                  "properties": {
+                    "key": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create API key",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "key"
+                  ],
+                  "properties": {
+                    "key": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integrations": {
+      "get": {
+        "summary": "Request an integration",
+        "responses": {
+          "200": {
+            "description": "Got integrations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "integrations"
+                  ],
+                  "properties": {
+                    "integrations": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Integration"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integrations/:integrationId": {
+      "post": {
+        "summary": "Connect an integration",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "formData"
+                ],
+                "properties": {
+                  "formData": {
+                    "$ref": "#/components/schemas/SimpleFormData"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Connected integration"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Disconnect an integration",
+        "responses": {
+          "200": {
+            "description": "Disconnected integration"
+          }
+        }
+      }
+    },
+    "/integrations/:integrationId/callback": {
+      "post": {
+        "summary": "Callback for connecting an integration using Oauth",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "code"
+                ],
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Integration authorized"
+          }
+        }
+      }
+    },
+    "/integrations/:integrationId/test": {
+      "post": {
+        "summary": "Test an integration connection",
+        "responses": {
+          "200": {
+            "description": "Test integration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    [
+                      {
+                        "type": "object",
+                        "required": [
+                          "success"
+                        ],
+                        "properties": {
+                          "success": {
+                            "type": "boolean",
+                            "enum": [
+                              true
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "required": [
+                          "success",
+                          "error"
+                        ],
+                        "properties": {
+                          "success": {
+                            "type": "boolean",
+                            "enum": [
+                              false
+                            ]
+                          },
+                          "error": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integrations/request": {
+      "post": {
+        "summary": "Request an integration",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "desc"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "desc": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Requested integration"
+          }
+        }
+      }
+    },
+    "/login": {
+      "get": {
+        "summary": "Get info about the logged in user",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "oid",
+                    "userId"
+                  ],
+                  "properties": {
+                    "oid": {
+                      "type": "string"
+                    },
+                    "userId": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Log in and receive token",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "oid",
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "oid": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "token"
+                  ],
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ping": {
+      "get": {
+        "summary": "Ping pong",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "pong"
+                  ],
+                  "properties": {
+                    "pong": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ping-auth": {
+      "get": {
+        "summary": "Ping pong (auth)",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "pong"
+                  ],
+                  "properties": {
+                    "pong": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks": {
+      "post": {
+        "summary": "Create a task",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "task"
+                ],
+                "properties": {
+                  "task": {
+                    "$ref": "#/components/schemas/Task"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "task"
+                  ],
+                  "properties": {
+                    "task": {
+                      "$ref": "#/components/schemas/Task"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update task",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "task"
+                ],
+                "properties": {
+                  "task": {
+                    "$ref": "#/components/schemas/Task"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "task"
+                  ],
+                  "properties": {
+                    "task": {
+                      "$ref": "#/components/schemas/Task"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks/:id": {
+      "get": {
+        "summary": "Get task by id",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "task"
+                  ],
+                  "properties": {
+                    "task": {
+                      "$ref": "#/components/schemas/Task"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks/my": {
+      "get": {
+        "summary": "Get my tasks",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "tasks",
+                    "nextPageKey"
+                  ],
+                  "properties": {
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Task"
+                      }
+                    },
+                    "nextPageKey": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/:id": {
+      "get": {
+        "summary": "Get user by id",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "user"
+                  ],
+                  "properties": {
+                    "user": {
+                      "$ref": "#/components/schemas/User"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/search": {
+      "get": {
+        "summary": "Search users by name or email",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "users"
+                  ],
+                  "properties": {
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/waitlist": {
+      "get": {
+        "summary": "Get waitlist entries since 2022-03-20",
+        "responses": {
+          "200": {
+            "description": "Fetched waitlist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WaitListEntry"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add entry to the waitlist",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "Basic example": {
+                  "value": {
+                    "email": "a@b.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Added to waitlist"
+          }
+        }
+      }
+    },
+    "/workflow": {
+      "get": {
+        "summary": "Get workflow definitions",
+        "responses": {
+          "200": {
+            "description": "Fetched workflow definitions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WorkflowDefinition"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create workflow definition",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "workflowDefinition"
+                ],
+                "properties": {
+                  "workflowDefinition": {
+                    "type": "object",
+                    "required": [
+                      "name",
+                      "description",
+                      "version"
+                    ],
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "version": {
+                        "type": "object",
+                        "required": [
+                          "steps",
+                          "inputs",
+                          "triggers"
+                        ],
+                        "properties": {
+                          "steps": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/WorkflowStepInstance"
+                            }
+                          },
+                          "inputs": {
+                            "type": "object",
+                            "additionalProperties": {
+                              "$ref": "#/components/schemas/DatumSlot"
+                            }
+                          },
+                          "triggers": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/WorkflowTriggerInstance"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Created workflow definition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "name",
+                    "description",
+                    "version"
+                  ],
+                  "properties": {
+                    "id": {
+                      "$ref": "#/components/schemas/WorkflowDefinitionID"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "$ref": "#/components/schemas/WorkflowDefinitionVersion"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/workflow-run/:run": {
+      "get": {
+        "summary": "Get workflow run",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "workflowRun"
+                  ],
+                  "properties": {
+                    "workflowRun": {
+                      "$ref": "#/components/schemas/WorkflowRun"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/workflow-run/:run/retry": {
+      "post": {
+        "summary": "Retry workflow run step",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "step"
+                ],
+                "properties": {
+                  "step": {
+                    "$ref": "#/components/schemas/WorkflowStepInstanceID"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Queued workflow step for retry",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "run"
+                  ],
+                  "properties": {
+                    "run": {
+                      "$ref": "#/components/schemas/WorkflowRun"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/workflow-run/resume": {
+      "post": {
+        "summary": "Resume workflow run",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "token"
+                ],
+                "properties": {
+                  "token": {
+                    "$ref": "#/components/schemas/ResumeToken"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resumed workflow run"
+          }
+        }
+      }
+    },
+    "/workflow/:id/run": {
+      "get": {
+        "summary": "Get workflow runs by workflow definition",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "workflowRuns",
+                    "nextStartKey"
+                  ],
+                  "properties": {
+                    "workflowRuns": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/WorkflowRun"
+                      }
+                    },
+                    "nextStartKey": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/workflow/:wfId": {
+      "put": {
+        "summary": "Save workflow definition",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "workflow"
+                ],
+                "properties": {
+                  "workflow": {
+                    "$ref": "#/components/schemas/WorkflowDefinition"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Saved workflow definition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "name",
+                    "description",
+                    "version"
+                  ],
+                  "properties": {
+                    "id": {
+                      "$ref": "#/components/schemas/WorkflowDefinitionID"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "$ref": "#/components/schemas/WorkflowDefinitionVersion"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete workflow definition",
+        "responses": {
+          "200": {
+            "description": "Deleted workflow definition"
+          }
+        }
+      }
+    },
+    "/workflow/:wfId/run": {
+      "post": {
+        "summary": "Start workflow run",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "workflow",
+                  "trigger"
+                ],
+                "properties": {
+                  "workflow": {
+                    "type": "object",
+                    "required": [
+                      "definition",
+                      "version"
+                    ],
+                    "properties": {
+                      "definition": {
+                        "$ref": "#/components/schemas/WorkflowDefinitionID"
+                      },
+                      "version": {
+                        "$ref": "#/components/schemas/WorkflowDefinitionVersionID"
+                      }
+                    }
+                  },
+                  "trigger": {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "data"
+                    ],
+                    "properties": {
+                      "id": {
+                        "$ref": "#/components/schemas/WorkflowTriggerInstanceID"
+                      },
+                      "data": {
+                        "type": "object",
+                        "additionalProperties": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "workflowRun"
+                  ],
+                  "properties": {
+                    "workflowRun": {
+                      "$ref": "#/components/schemas/WorkflowRun"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/workflow/:wfId/v": {
+      "get": {
+        "summary": "Get workflow definition versions",
+        "responses": {
+          "200": {
+            "description": "Fetched workflow definition versions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WorkflowDefinitionVersion"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create workflow definition version",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "version"
+                ],
+                "properties": {
+                  "version": {
+                    "type": "object",
+                    "required": [
+                      "inputs",
+                      "steps",
+                      "triggers"
+                    ],
+                    "properties": {
+                      "inputs": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "$ref": "#/components/schemas/DatumSlot"
+                        }
+                      },
+                      "steps": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/WorkflowStepInstance"
+                        }
+                      },
+                      "triggers": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/WorkflowTriggerInstance"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Created workflow definition version",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "inputs",
+                    "steps",
+                    "triggers"
+                  ],
+                  "properties": {
+                    "id": {
+                      "$ref": "#/components/schemas/WorkflowDefinitionVersionID"
+                    },
+                    "inputs": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "$ref": "#/components/schemas/DatumSlot"
+                      }
+                    },
+                    "steps": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/WorkflowStepInstance"
+                      }
+                    },
+                    "triggers": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/WorkflowTriggerInstance"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/workflow/:wfId/v/:vId": {
+      "get": {
+        "summary": "Get workflow definition version",
+        "responses": {
+          "200": {
+            "description": "Fetched workflow definition version",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "inputs",
+                    "steps",
+                    "triggers"
+                  ],
+                  "properties": {
+                    "id": {
+                      "$ref": "#/components/schemas/WorkflowDefinitionVersionID"
+                    },
+                    "inputs": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "$ref": "#/components/schemas/DatumSlot"
+                      }
+                    },
+                    "steps": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/WorkflowStepInstance"
+                      }
+                    },
+                    "triggers": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/WorkflowTriggerInstance"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/workflow/run-app": {
+      "post": {
+        "summary": "Start workflow run from app",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "workflow",
+                  "trigger"
+                ],
+                "properties": {
+                  "workflow": {
+                    "type": "object",
+                    "required": [
+                      "definition",
+                      "version"
+                    ],
+                    "properties": {
+                      "definition": {
+                        "$ref": "#/components/schemas/WorkflowDefinitionID"
+                      },
+                      "version": {
+                        "$ref": "#/components/schemas/WorkflowDefinitionVersionID"
+                      }
+                    }
+                  },
+                  "trigger": {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "data"
+                    ],
+                    "properties": {
+                      "id": {
+                        "$ref": "#/components/schemas/WorkflowTriggerInstanceID"
+                      },
+                      "data": {
+                        "type": "object",
+                        "additionalProperties": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "workflowRun"
+                  ],
+                  "properties": {
+                    "workflowRun": {
+                      "$ref": "#/components/schemas/WorkflowRun"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "WorkflowDefinitionID": {
+        "type": "string"
+      },
+      "WorkflowTriggerInstanceID": {
+        "type": "string"
+      },
+      "SimpleFormFieldSchemaNumber": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "optional",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "optional": {
+            "type": "boolean"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "number"
+            ]
+          }
+        }
+      },
+      "SimpleFormFieldSchemaString": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "optional",
+          "type",
+          "placeholder"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "optional": {
+            "type": "boolean"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "string"
+            ]
+          },
+          "placeholder": {
+            "type": "string"
+          }
+        }
+      },
+      "SimpleFormFieldSchemaSingleSelect": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "optional",
+          "type",
+          "options"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "optional": {
+            "type": "boolean"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "single-select"
+            ]
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "value",
+                "label"
+              ],
+              "properties": {
+                "value": {
+                  "type": "string"
+                },
+                "label": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "SimpleFormFieldSchemaMultiSelect": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "optional",
+          "type",
+          "options"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "optional": {
+            "type": "boolean"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "multi-select"
+            ]
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "value",
+                "label"
+              ],
+              "properties": {
+                "value": {
+                  "type": "string"
+                },
+                "label": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "SimpleFormFieldSchemaPerson": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "optional",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "optional": {
+            "type": "boolean"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "person"
+            ]
+          }
+        }
+      },
+      "SimpleFormSchema": {
+        "type": "object",
+        "required": [
+          "fields"
+        ],
+        "properties": {
+          "fields": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                [
+                  {
+                    "$ref": "#/components/schemas/SimpleFormFieldSchemaNumber"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SimpleFormFieldSchemaString"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SimpleFormFieldSchemaSingleSelect"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SimpleFormFieldSchemaMultiSelect"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SimpleFormFieldSchemaPerson"
+                  }
+                ]
+              ]
+            }
+          }
+        }
+      },
+      "HomeApp": {
+        "type": "object",
+        "required": [
+          "title",
+          "workflow",
+          "trigger",
+          "form"
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "workflow": {
+            "$ref": "#/components/schemas/WorkflowDefinitionID"
+          },
+          "trigger": {
+            "$ref": "#/components/schemas/WorkflowTriggerInstanceID"
+          },
+          "form": {
+            "$ref": "#/components/schemas/SimpleFormSchema"
+          }
+        }
+      },
+      "IntegrationID": {
+        "type": "string"
+      },
+      "Integration": {
+        "anyOf": [
+          [
+            {
+              "type": "object",
+              "required": [
+                "id",
+                "name",
+                "iconUrl",
+                "description",
+                "vendor",
+                "connected",
+                "authorizeDescription",
+                "supportsReconnection",
+                "authorizeUrl"
+              ],
+              "properties": {
+                "id": {
+                  "$ref": "#/components/schemas/IntegrationID"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "iconUrl": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "vendor": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "iconUrl",
+                    "description"
+                  ],
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "iconUrl": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "connected": {
+                  "type": "boolean"
+                },
+                "authorizeDescription": {
+                  "type": "string"
+                },
+                "supportsReconnection": {
+                  "type": "boolean"
+                },
+                "authorizeUrl": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "id",
+                "name",
+                "iconUrl",
+                "description",
+                "vendor",
+                "connected",
+                "authorizeDescription",
+                "supportsReconnection",
+                "authorizeForm"
+              ],
+              "properties": {
+                "id": {
+                  "$ref": "#/components/schemas/IntegrationID"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "iconUrl": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "vendor": {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "iconUrl",
+                    "description"
+                  ],
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "iconUrl": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "connected": {
+                  "type": "boolean"
+                },
+                "authorizeDescription": {
+                  "type": "string"
+                },
+                "supportsReconnection": {
+                  "type": "boolean"
+                },
+                "authorizeForm": {
+                  "$ref": "#/components/schemas/SimpleFormSchema"
+                }
+              }
+            }
+          ]
+        ]
+      },
+      "SimpleFormFieldSchemaType": {
+        "anyOf": [
+          [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        ]
+      },
+      "SimpleFormData": {
+        "type": "object",
+        "required": [
+          "fields"
+        ],
+        "properties": {
+          "fields": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/SimpleFormFieldSchemaType"
+            }
+          }
+        }
+      },
+      "TaskID": {
+        "type": "string"
+      },
+      "ResumeToken": {
+        "type": "string"
+      },
+      "WorkflowRunID": {
+        "type": "string"
+      },
+      "WorkflowStepInstanceID": {
+        "type": "string"
+      },
+      "Task": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "desc",
+          "status",
+          "assignee",
+          "form",
+          "outputs",
+          "c_at",
+          "u_at",
+          "f_at",
+          "resumes",
+          "startedBy",
+          "log"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/TaskID"
+          },
+          "title": {
+            "type": "string"
+          },
+          "desc": {
+            "type": "string"
+          },
+          "status": {
+            "anyOf": [
+              [
+                {
+                  "type": "string",
+                  "enum": [
+                    "todo"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "wip"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "done"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "rejected"
+                  ]
+                }
+              ]
+            ]
+          },
+          "assignee": {
+            "anyOf": [
+              [
+                {
+                  "type": "object",
+                  "required": [
+                    "userId",
+                    "name",
+                    "email",
+                    "pic"
+                  ],
+                  "properties": {
+                    "userId": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "pic": {
+                      "type": "string"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "team"
+                  ],
+                  "properties": {
+                    "team": {
+                      "type": "string"
+                    }
+                  }
+                }
+              ]
+            ]
+          },
+          "form": {
+            "$ref": "#/components/schemas/SimpleFormSchema"
+          },
+          "outputs": {
+            "type": "object",
+            "additionalProperties": {
+              "anyOf": [
+                [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "object",
+                    "required": [],
+                    "properties": {}
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "array",
+                    "items": {}
+                  }
+                ]
+              ]
+            }
+          },
+          "c_at": {
+            "type": "string"
+          },
+          "u_at": {
+            "type": "string"
+          },
+          "f_at": {
+            "type": "string"
+          },
+          "resumes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResumeToken"
+            }
+          },
+          "startedBy": {
+            "type": "object",
+            "required": [
+              "workflow",
+              "run",
+              "step"
+            ],
+            "properties": {
+              "workflow": {
+                "$ref": "#/components/schemas/WorkflowDefinitionID"
+              },
+              "run": {
+                "$ref": "#/components/schemas/WorkflowRunID"
+              },
+              "step": {
+                "$ref": "#/components/schemas/WorkflowStepInstanceID"
+              }
+            }
+          },
+          "log": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "userId",
+                "name",
+                "email",
+                "pic",
+                "ts",
+                "updates"
+              ],
+              "properties": {
+                "userId": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "pic": {
+                  "type": "string"
+                },
+                "ts": {
+                  "type": "string"
+                },
+                "updates": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "field",
+                      "value",
+                      "oldValue"
+                    ],
+                    "properties": {
+                      "field": {
+                        "type": "string"
+                      },
+                      "value": {
+                        "anyOf": [
+                          [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "object",
+                              "required": [],
+                              "properties": {}
+                            },
+                            {
+                              "type": "boolean"
+                            },
+                            {
+                              "type": "array",
+                              "items": {}
+                            }
+                          ]
+                        ]
+                      },
+                      "oldValue": {
+                        "anyOf": [
+                          [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "object",
+                              "required": [],
+                              "properties": {}
+                            },
+                            {
+                              "type": "boolean"
+                            },
+                            {
+                              "type": "array",
+                              "items": {}
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "required": [
+          "userId",
+          "name",
+          "givenName",
+          "familyName",
+          "nickName",
+          "primaryEmail",
+          "alternateEmails",
+          "iconUrl"
+        ],
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "givenName": {
+            "type": "string"
+          },
+          "familyName": {
+            "type": "string"
+          },
+          "nickName": {
+            "type": "string"
+          },
+          "primaryEmail": {
+            "type": "string"
+          },
+          "alternateEmails": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "iconUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "WaitListEntry": {
+        "type": "object",
+        "required": [
+          "email",
+          "ts"
+        ],
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "ts": {
+            "type": "string"
+          }
+        }
+      },
+      "WorkflowDefinitionVersionID": {
+        "type": "string"
+      },
+      "DataTypeCustomReference": {
+        "type": "object",
+        "required": [
+          "type",
+          "id"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "custom"
+            ]
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "DataType": {
+        "anyOf": [
+          [
+            {
+              "type": "string",
+              "enum": [
+                "string"
+              ]
+            },
+            {
+              "type": "string",
+              "enum": [
+                "number"
+              ]
+            },
+            {
+              "type": "string",
+              "enum": [
+                "person"
+              ]
+            },
+            {
+              "type": "object",
+              "required": [
+                "type",
+                "options"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "single-select"
+                  ]
+                },
+                "options": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "type",
+                "options"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "multi-select"
+                  ]
+                },
+                "options": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            {
+              "$ref": "#/components/schemas/DataTypeCustomReference"
+            }
+          ]
+        ]
+      },
+      "DatumSlot": {
+        "type": "object",
+        "required": [
+          "key",
+          "type",
+          "name",
+          "optional"
+        ],
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/DataType"
+          },
+          "name": {
+            "type": "string"
+          },
+          "optional": {
+            "type": "boolean"
+          }
+        }
+      },
+      "WorkflowStepDefinitionID": {
+        "type": "string"
+      },
+      "WorkflowStepInstanceDependency": {
+        "type": "object",
+        "required": [
+          "step",
+          "output"
+        ],
+        "properties": {
+          "step": {
+            "$ref": "#/components/schemas/WorkflowStepInstanceID"
+          },
+          "output": {
+            "type": "string"
+          }
+        }
+      },
+      "DatumConstantNode": {
+        "type": "object",
+        "required": [
+          "nt",
+          "type",
+          "value"
+        ],
+        "properties": {
+          "nt": {
+            "type": "string",
+            "enum": [
+              "const"
+            ]
+          },
+          "type": {
+            "$ref": "#/components/schemas/DataType"
+          },
+          "value": {
+            "anyOf": [
+              [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "object",
+                  "required": [],
+                  "properties": {}
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "array",
+                  "items": {}
+                }
+              ]
+            ]
+          }
+        }
+      },
+      "DatumDependentNode": {
+        "type": "object",
+        "required": [
+          "nt",
+          "src"
+        ],
+        "properties": {
+          "nt": {
+            "type": "string",
+            "enum": [
+              "dep"
+            ]
+          },
+          "src": {
+            "anyOf": [
+              [
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "slot"
+                  ],
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "inputs"
+                      ]
+                    },
+                    "slot": {
+                      "type": "string"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "trigger",
+                    "slot"
+                  ],
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "trigger"
+                      ]
+                    },
+                    "trigger": {
+                      "$ref": "#/components/schemas/WorkflowTriggerInstanceID"
+                    },
+                    "slot": {
+                      "type": "string"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "step",
+                    "output",
+                    "slot"
+                  ],
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "step"
+                      ]
+                    },
+                    "step": {
+                      "$ref": "#/components/schemas/WorkflowStepInstanceID"
+                    },
+                    "output": {
+                      "type": "string"
+                    },
+                    "slot": {
+                      "type": "string"
+                    }
+                  }
+                }
+              ]
+            ]
+          }
+        }
+      },
+      "DatumJoinNode": {
+        "type": "object",
+        "required": [
+          "nt",
+          "type",
+          "children",
+          "func"
+        ],
+        "properties": {
+          "nt": {
+            "type": "string",
+            "enum": [
+              "join"
+            ]
+          },
+          "type": {
+            "$ref": "#/components/schemas/DataType"
+          },
+          "children": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DatumNode"
+            }
+          },
+          "func": {
+            "type": "string"
+          }
+        }
+      },
+      "DatumNode": {
+        "anyOf": [
+          [
+            {
+              "$ref": "#/components/schemas/DatumConstantNode"
+            },
+            {
+              "$ref": "#/components/schemas/DatumDependentNode"
+            },
+            {
+              "$ref": "#/components/schemas/DatumJoinNode"
+            }
+          ]
+        ]
+      },
+      "Datum": {
+        "type": "object",
+        "required": [
+          "root"
+        ],
+        "properties": {
+          "root": {
+            "$ref": "#/components/schemas/DatumNode"
+          }
+        }
+      },
+      "WorkflowDatumSlotMap": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/components/schemas/DatumSlot"
+        }
+      },
+      "WorkflowStepInstance": {
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "deps",
+          "data",
+          "inputs",
+          "outputs",
+          "loc"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/WorkflowStepInstanceID"
+          },
+          "type": {
+            "$ref": "#/components/schemas/WorkflowStepDefinitionID"
+          },
+          "deps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkflowStepInstanceDependency"
+            }
+          },
+          "data": {
+            "type": "object",
+            "required": [],
+            "properties": {}
+          },
+          "inputs": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "required": [
+                "datum",
+                "slot"
+              ],
+              "properties": {
+                "datum": {
+                  "$ref": "#/components/schemas/Datum"
+                },
+                "slot": {
+                  "$ref": "#/components/schemas/DatumSlot"
+                }
+              }
+            }
+          },
+          "outputs": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/WorkflowDatumSlotMap"
+            }
+          },
+          "loc": {
+            "type": "object",
+            "required": [
+              "x",
+              "y"
+            ],
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      },
+      "WorkflowTriggerDefinitionID": {
+        "type": "string"
+      },
+      "WorkflowTriggerInstance": {
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "outputs",
+          "mappings",
+          "data",
+          "loc"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/WorkflowTriggerInstanceID"
+          },
+          "type": {
+            "$ref": "#/components/schemas/WorkflowTriggerDefinitionID"
+          },
+          "outputs": {
+            "$ref": "#/components/schemas/WorkflowDatumSlotMap"
+          },
+          "mappings": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Datum"
+            }
+          },
+          "data": {
+            "type": "object",
+            "additionalProperties": {}
+          },
+          "loc": {
+            "type": "object",
+            "required": [
+              "x",
+              "y"
+            ],
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      },
+      "WorkflowDefinitionVersion": {
+        "type": "object",
+        "required": [
+          "id",
+          "inputs",
+          "steps",
+          "triggers"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/WorkflowDefinitionVersionID"
+          },
+          "inputs": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/DatumSlot"
+            }
+          },
+          "steps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkflowStepInstance"
+            }
+          },
+          "triggers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkflowTriggerInstance"
+            }
+          }
+        }
+      },
+      "WorkflowDefinition": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "description",
+          "version"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/WorkflowDefinitionID"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "version": {
+            "$ref": "#/components/schemas/WorkflowDefinitionVersion"
+          }
+        }
+      },
+      "WorkflowRun": {
+        "type": "object",
+        "required": [
+          "id",
+          "definition",
+          "version",
+          "state",
+          "startedTime",
+          "endedTime",
+          "trigger",
+          "inputs",
+          "steps"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/WorkflowRunID"
+          },
+          "definition": {
+            "$ref": "#/components/schemas/WorkflowDefinitionID"
+          },
+          "version": {
+            "$ref": "#/components/schemas/WorkflowDefinitionVersionID"
+          },
+          "state": {
+            "anyOf": [
+              [
+                {
+                  "type": "string",
+                  "enum": [
+                    "running"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "error"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "completed"
+                  ]
+                }
+              ]
+            ]
+          },
+          "startedTime": {
+            "type": "string"
+          },
+          "endedTime": {
+            "type": "string"
+          },
+          "trigger": {
+            "type": "object",
+            "required": [
+              "id",
+              "output"
+            ],
+            "properties": {
+              "id": {
+                "$ref": "#/components/schemas/WorkflowTriggerInstanceID"
+              },
+              "output": {
+                "type": "object",
+                "additionalProperties": {}
+              }
+            }
+          },
+          "inputs": {
+            "type": "object",
+            "additionalProperties": {}
+          },
+          "steps": {
+            "type": "object",
+            "additionalProperties": {
+              "anyOf": [
+                [
+                  {
+                    "type": "object",
+                    "required": [
+                      "retries",
+                      "resumeTokensIssued",
+                      "startedTime",
+                      "data",
+                      "outputs",
+                      "completedTime"
+                    ],
+                    "properties": {
+                      "retries": {
+                        "type": "number"
+                      },
+                      "resumeTokensIssued": {
+                        "type": "number"
+                      },
+                      "startedTime": {
+                        "type": "string"
+                      },
+                      "data": {},
+                      "outputs": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "anyOf": [
+                              [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "number"
+                                },
+                                {
+                                  "type": "object",
+                                  "required": [],
+                                  "properties": {}
+                                },
+                                {
+                                  "type": "boolean"
+                                },
+                                {
+                                  "type": "array",
+                                  "items": {}
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      },
+                      "completedTime": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "retries",
+                      "resumeTokensIssued",
+                      "startedTime",
+                      "data",
+                      "error"
+                    ],
+                    "properties": {
+                      "retries": {
+                        "type": "number"
+                      },
+                      "resumeTokensIssued": {
+                        "type": "number"
+                      },
+                      "startedTime": {
+                        "type": "string"
+                      },
+                      "data": {},
+                      "error": {
+                        "type": "object",
+                        "required": [
+                          "message",
+                          "data",
+                          "shouldRetry",
+                          "userCanRetry"
+                        ],
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "data": {},
+                          "shouldRetry": {
+                            "type": "boolean"
+                          },
+                          "userCanRetry": {
+                            "type": "boolean"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "retries",
+                      "resumeTokensIssued",
+                      "startedTime",
+                      "data",
+                      "waitingOnResume"
+                    ],
+                    "properties": {
+                      "retries": {
+                        "type": "number"
+                      },
+                      "resumeTokensIssued": {
+                        "type": "number"
+                      },
+                      "startedTime": {
+                        "type": "string"
+                      },
+                      "data": {},
+                      "waitingOnResume": {
+                        "type": "boolean",
+                        "enum": [
+                          true
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "retries",
+                      "resumeTokensIssued",
+                      "startedTime",
+                      "data"
+                    ],
+                    "properties": {
+                      "retries": {
+                        "type": "number"
+                      },
+                      "resumeTokensIssued": {
+                        "type": "number"
+                      },
+                      "startedTime": {
+                        "type": "string"
+                      },
+                      "data": {}
+                    }
+                  }
+                ]
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

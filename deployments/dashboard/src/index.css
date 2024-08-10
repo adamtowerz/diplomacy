@@ -1,0 +1,13 @@
+html,
+body,
+#root {
+  height: 100%;
+}
+
+#root {
+  overflow-y: auto;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
